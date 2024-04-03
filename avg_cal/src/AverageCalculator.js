@@ -7,6 +7,7 @@ const AverageCalculator = () => {
   const [windowCurrState, setWindowCurrState] = useState([]);
   const [numbers, setNumbers] = useState([]);
   const windowSize = 10;
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTU3NDc4LCJpYXQiOjE3MTIxNTcxNzgsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6ImJmZmQ5NTczLTYwOWItNDY3Yi04ZjQ1LTcyYzE3MzdiNmMyNSIsInN1YiI6ImFqMzY3MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoiU1JNSVNUIiwiY2xpZW50SUQiOiJiZmZkOTU3My02MDliLTQ2N2ItOGY0NS03MmMxNzM3YjZjMjUiLCJjbGllbnRTZWNyZXQiOiJHTktOcG5xRGxWamJMbXdYIiwib3duZXJOYW1lIjoiQWtzaGF0Iiwib3duZXJFbWFpbCI6ImFqMzY3MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDAzMDMwMjMyIn0.Iy8sZWI6wimlLTd66W_ehfhMUU77kra39F0XVUnd8nw";
 
   useEffect(() => {
     fetchData();
@@ -14,8 +15,18 @@ const AverageCalculator = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://20.244.56.144/test/even');
-      const newNumbers = response.data;
+      const instance=axios.create({
+        baseURL:'www.google.com/',
+        headers:{
+            'Content-Type':'application/json',
+                        'Acess-Control-Allow-Origin':'*',
+                        'Authorization':`Bearer ${token}`,
+                        'Accept': "application/json"
+            }
+        })
+    
+      const response = await instance.get('http://20.244.56.144/test/even')
+      const newNumbers = response.data.numbers;
       setNumbers(newNumbers);
       updateWindow(newNumbers);
     } catch (error) {
